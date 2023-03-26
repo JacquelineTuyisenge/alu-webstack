@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Configuring your domain zone so that the subdomain www points to your load-balancer IP
 
-domain=$1
-subdomain=$2
+domain= "holberton.online"
+subdomain= "www"
 
 if [ -z "$domain" ]; then
     echo "Please provide a domain name as the first argument"
