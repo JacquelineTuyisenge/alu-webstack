@@ -1,0 +1,25 @@
+#!/user/bin/env bash
+# Configuring your domain zone so that the subdomain www points to your load-balancer IP
+
+domain=$1
+subdomain=$2
+
+if [ -z "$domain" ]; then
+    echo "Please provide a domain name as the first argument"
+    exit 1
+fi
+
+if [ -z "$subdomain" ]; then
+    subdomains=("www" "lb-01" "web-01" "web-02")
+else
+    subdomains=("$subdomain")
+fi
+
+for sub in "${subdomains[@]}"; do
+    output=$(dig "$sub.$domain" | awk '/^'"$sub"'\./{print $1" "$2" "$5}')
+    if [ -z "$output" ]; then
+        echo "The subdomain $sub does not exist for $domain"
+    else
+        echo "The subdomain $sub $output"
+    fi
+done
